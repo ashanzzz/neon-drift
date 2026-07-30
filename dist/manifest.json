@@ -1,0 +1,20 @@
+{
+  "name": "霓虹漂移：极速追缉",
+  "short_name": "霓虹漂移",
+  "description": "手机浏览器可玩的俯视竞速Roguelike",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#0a0a1a",
+  "theme_color": "#00ffff",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "screenshots": []
+}

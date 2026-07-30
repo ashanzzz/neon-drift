@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a1a">
+  <meta name="description" content="霓虹漂移：极速追缉 - 手机浏览器可玩的俯视竞速Roguelike">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="霓虹漂移">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <title>霓虹漂移：极速追缉</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a1a; }
+    #game { width: 100%; height: 100%; display: block; }
+    .loading {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+      background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2e 100%);
+      color: #00ffff; font-family: 'Orbitron', 'Segoe UI', sans-serif;
+      z-index: 1000; transition: opacity 0.3s, visibility 0.3s;
+    }
+    .loading.hidden { opacity: 0; visibility: hidden; }
+    .loading-bar { width: 200px; height: 4px; background: rgba(0,255,255,0.2); border-radius: 2px; overflow: hidden; }
+    .loading-bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, #00ffff, #ff00ff); transition: width 0.1s; }
+    .loading-text { font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
+    @font-face { font-family: 'Orbitron'; src: url('https://fonts.gstatic.com/s/orbitron/v18/yMJRMIlzdpvBhQQL_SC3X9yRHNcs.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">
+    <div style="font-size: 32px; font-weight: 700; letter-spacing: 4px; background: linear-gradient(90deg, #00ffff, #ff00ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NEON DRIFT</div>
+    <div class="loading-bar"><div class="loading-bar-inner" id="loadBar"></div></div>
+    <div class="loading-text" id="loadText">初始化引擎...</div>
+  </div>
+  <div id="game"></div>
+  <script type="module" src="/src/main.ts"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+    // 简单的加载进度模拟
+    const bar = document.getElementById('loadBar');
+    const text = document.getElementById('loadText');
+    const texts = ['初始化引擎...', '加载资源...', '编译着色器...', '生成赛道...', '启动引擎...', '准备就绪!'];
+    let i = 0;
+    const intv = setInterval(() => {
+      i = (i + 1) % texts.length;
+      bar.style.width = (i * 20) + '%';
+      text.textContent = texts[i];
+      if (i === texts.length - 1) {
+        setTimeout(() => {
+          document.getElementById('loading').classList.add('hidden');
+          clearInterval(intv);
+        }, 500);
+      }
+    }, 300);
+  </script>
+</body>
+</html>
